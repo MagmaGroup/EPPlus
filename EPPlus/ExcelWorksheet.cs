@@ -121,6 +121,21 @@ namespace OfficeOpenXml
 	/// </summary>
     public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable
     {
+        public Dictionary<string, int> HeaderRow { get; set; } = new Dictionary<string, int>();
+
+        public void ReadHeaderRow()
+        {
+            int columns = this.Dimension.Columns;
+
+            var headerRow = this.Cells[1, 1, 1, columns];
+            int cellNumber = 1;
+            foreach (var headerCell in headerRow)
+            {
+                HeaderRow.Add(headerCell.Value.ToString(), cellNumber);
+                cellNumber++;
+            }
+        }
+
         internal class Formulas
         {
             public Formulas(ISourceCodeTokenizer tokenizer)

@@ -46,6 +46,7 @@ using OfficeOpenXml.Utils.CompundDocument;
 using System.Configuration;
 using OfficeOpenXml.Compatibility;
 using System.Text;
+using System.Linq;
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -273,6 +274,30 @@ namespace OfficeOpenXml
             File = newFile;
             ConstructNewFile(null);
         }
+
+        public bool  IsFirstRowHeader { get; }
+
+      
+
+        public ExcelPackage(bool isFirstRowHeader, FileInfo newFile)
+        {
+            IsFirstRowHeader = isFirstRowHeader;
+
+            Init();
+            File = newFile;
+            ConstructNewFile(null);
+
+            if (isFirstRowHeader)
+            {
+               foreach (var worksheet in this.Workbook.Worksheets)
+                {
+                    worksheet.ReadHeaderRow();
+                }
+            }
+        }
+
+
+
         /// <summary>
         /// Create a new instance of the ExcelPackage class based on a existing file or creates a new file. 
         /// </summary>

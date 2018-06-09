@@ -165,6 +165,23 @@ namespace OfficeOpenXml
                 return this;
             }
         }
+
+        public ExcelRange this[int row, string headerColumn]
+        {
+            get
+            {
+                return this[row, _worksheet.HeaderRow[headerColumn]];
+            }       
+        }
+
+        public ExcelRange this[int fromRow, int toRow, string headerColumn]
+        {
+            get
+            {
+                return this[fromRow, _worksheet.HeaderRow[headerColumn], toRow, _worksheet.HeaderRow[headerColumn]];
+            }
+        }
+
         #endregion
         private static void ValidateRowCol(int Row, int Col)
         {
